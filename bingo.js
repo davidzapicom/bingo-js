@@ -404,7 +404,9 @@ class Bingo {
         if (lineaOK) {
             linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "blue"));
             if (!bingo.lineaCantada) {
-                alert("Linea!!");
+                let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
+                vozLinea.voice = synth.getVoices()[2];
+                synth.speak(vozLinea);
                 bingo.lineaCantada = true;
             }
 
@@ -412,7 +414,9 @@ class Bingo {
             if (cantaBingo) {
                 bingoOK = Bingo.revisarBingo(carton);
                 if (bingoOK == true) {
-                    alert("Bingo!!");
+                    let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
+                    vozBingo.voice = synth.getVoices()[2];
+                    synth.speak(vozBingo);
                 }
             }
         }
@@ -533,10 +537,10 @@ class Bola {
     }
 }
 
-let jugador = prompt("Write your name down");
-let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}`);
-        //* idioma declarado
-        vozjugador.voice = synth.getVoices()[2];
-        synth.speak(vozjugador);
+var jugador = prompt("Write your name down");
+let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
+//* idioma declarado
+vozjugador.voice = synth.getVoices()[2];
+synth.speak(vozjugador);
 
 let mibingo = new Bingo();

@@ -1,0 +1,8 @@
+body {
+    background-color: aliceblue;
+}
+.btn {
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: transparent;
+}  

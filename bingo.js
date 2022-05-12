@@ -219,7 +219,7 @@ const layoutHTMLBotonBingo = {
             evento: "click",
             funcion: (evento, objeto) => {
                 let estado = evento.target.innerHTML;
-                if (estado === "Start") {
+                if (estado === "Start" || estado === "Continue") {
                     objeto.girando = false;
                     evento.target.innerHTML = "Stop";
                     estado = evento.target.innerHTML;
@@ -229,12 +229,12 @@ const layoutHTMLBotonBingo = {
                         objeto.girando = true;
                         if (objeto.bolas.length === objeto.numeroDeBolas) {
                             clearInterval(objeto.intervalo);
-                            evento.target.innerHTML = "FINALIZADO";
+                            evento.target.innerHTML = "END";
                             evento.target.disabled = true;
                         }
                     }
                 } else {
-                    evento.target.innerHTML = "Start";
+                    evento.target.innerHTML = "Continue";
                     objeto.girando = false;
                     estado = evento.target.innerHTML;
                     clearInterval(objeto.intervalo);
@@ -406,9 +406,8 @@ class Bingo {
                 let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
                 vozLinea.voice = synth.getVoices()[1];
                 synth.speak(vozLinea);
-                bingo.lineaCantada = true;
+                bingo.lineaCantada = true; 
             }
-
             cantaBingo = carton.lineas.every((linea) => (linea.estado));
             if (cantaBingo) {
                 bingoOK = Bingo.revisarBingo(carton);
@@ -416,13 +415,17 @@ class Bingo {
                     let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
                     vozBingo.voice = synth.getVoices()[1];
                     synth.speak(vozBingo);
-                    arrancarBingo = false;
+                    
                     let bingoEnd = new SpeechSynthesisUtterance(`${jugador}, game over!`);
                     bingoEnd.voice = synth.getVoices()[1];
                     synth.speak(bingoEnd);
-                    alert(`${jugador}, game over, you've win!`);
+                    alert(`${jugador}, you've win! Game over.`);
+                    arrancarBingo = false;
+                    evento.target.innerHTML = "END";
+                    evento.target.disabled = true;
                 }
             }
+            arrancarBingo = true;
         }
         if (arrancarBingo) {
             bingo.botonBingoHTML.dispatchEvent(evento);

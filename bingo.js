@@ -392,11 +392,11 @@ class Bingo {
             let evento = new Event("click");
             let arrancarBingo = false;
 
-            //?
             if (bingo.girando && !bingo.lineaCantada) {
                 arrancarBingo = true;
                 bingo.botonBingoHTML.dispatchEvent(evento);
             }
+
             lineaOK = Bingo.comprobarLinea(bingo, linea);
             linea.estado = lineaOK;
         }
@@ -406,8 +406,11 @@ class Bingo {
                 let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
                 vozLinea.voice = synth.getVoices()[1];
                 synth.speak(vozLinea);
-                bingo.lineaCantada = true; 
+                bingo.lineaCantada = true;
+                arrancarBingo = true;
+                bingo.botonBingoHTML.dispatchEvent(evento);
             }
+
             cantaBingo = carton.lineas.every((linea) => (linea.estado));
             if (cantaBingo) {
                 bingoOK = Bingo.revisarBingo(carton);
@@ -421,11 +424,9 @@ class Bingo {
                     synth.speak(bingoEnd);
                     alert(`${jugador}, you've win! Game over.`);
                     arrancarBingo = false;
-                    evento.target.innerHTML = "END";
-                    evento.target.disabled = true;
+                    bingo.botonBingoHTML.dispatchEvent(evento);
                 }
-            }
-            arrancarBingo = true;
+            } 
         }
         if (arrancarBingo) {
             bingo.botonBingoHTML.dispatchEvent(evento);
@@ -544,9 +545,8 @@ class Bola {
     }
 }
 
-var jugador = prompt("Write your name down");
+var jugador = prompt("Please write down your name");
 let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
-//* idioma declarado
 vozjugador.voice = synth.getVoices()[1];
 synth.speak(vozjugador);
 

@@ -1,6 +1,12 @@
+@font-face {
+    font-family: 'Recline';
+    src: url('../fonts/recline.ttf') format('truetype');
+  }
+
 /* GENERAL CSS */
 body {
     background-color: aliceblue;
+    font-family: 'Recline';
 }
 
 /*

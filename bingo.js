@@ -206,16 +206,22 @@ const layoutHTMLBotonBingo = {
     tipo: "button",
     atributos: {
         name: "botonBombo",
+        class: "btn",
         fontSize: "4em",
     },
+    // estilos: {
+    //     borderRadius: "10px",
+    //     color: "#000",
+    //     border: "#000",
+    // },
     eventos: [
         {
             evento: "click",
             funcion: (evento, objeto) => {
                 let estado = evento.target.innerHTML;
-                if (estado === "Girar") {
+                if (estado === "Start") {
                     objeto.girando = false;
-                    evento.target.innerHTML = "Parar";
+                    evento.target.innerHTML = "Stop";
                     estado = evento.target.innerHTML;
                     objeto.intervalo = setInterval(procesaBola, 3000);
                     function procesaBola() {
@@ -228,21 +234,14 @@ const layoutHTMLBotonBingo = {
                         }
                     }
                 } else {
-                    evento.target.innerHTML = "Girar";
+                    evento.target.innerHTML = "Start";
                     objeto.girando = false;
                     estado = evento.target.innerHTML;
                     clearInterval(objeto.intervalo);
                 }
             }
         }
-    ],
-    estilos: {
-        backgroundColor: "transparent",
-        border: "5px solid",
-        borderRadius: "1px",
-        color: "#000",
-        border: "#000",
-    },
+    ]
 }
 
 
@@ -405,7 +404,7 @@ class Bingo {
             linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "blue"));
             if (!bingo.lineaCantada) {
                 let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
-                vozLinea.voice = synth.getVoices()[2];
+                vozLinea.voice = synth.getVoices()[1];
                 synth.speak(vozLinea);
                 bingo.lineaCantada = true;
             }
@@ -415,8 +414,13 @@ class Bingo {
                 bingoOK = Bingo.revisarBingo(carton);
                 if (bingoOK == true) {
                     let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
-                    vozBingo.voice = synth.getVoices()[2];
+                    vozBingo.voice = synth.getVoices()[1];
                     synth.speak(vozBingo);
+                    arrancarBingo = false;
+                    let bingoEnd = new SpeechSynthesisUtterance(`${jugador}, game over!`);
+                    bingoEnd.voice = synth.getVoices()[1];
+                    synth.speak(bingoEnd);
+                    alert(`${jugador}, game over, you've win!`);
                 }
             }
         }
@@ -463,7 +467,7 @@ class Bingo {
         this.mesaBomboHTML.insertAdjacentElement("beforeend", this.bomboHTML);
         this.botonBingoHTML = generarElementoHTML(layoutHTMLBotonBingo, this);
         this.bomboHTML.insertAdjacentElement("beforeend", this.botonBingoHTML);
-        this.botonBingoHTML.innerHTML = "Girar";
+        this.botonBingoHTML.innerHTML = "Start";
         this.generarTablaDeBolas();
     }
 
@@ -540,7 +544,7 @@ class Bola {
 var jugador = prompt("Write your name down");
 let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
 //* idioma declarado
-vozjugador.voice = synth.getVoices()[2];
+vozjugador.voice = synth.getVoices()[1];
 synth.speak(vozjugador);
 
 let mibingo = new Bingo();

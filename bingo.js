@@ -403,9 +403,9 @@ class Bingo {
 
 
             if (lineaOK) {
-                if (!bingo.lineaCantada) {
+                //if (!bingo.lineaCantada) {
                     linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "blue"));
-                }
+                //}
                 if (!bingo.lineaCantada) {
                     let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
                     vozLinea.voice = synth.getVoices()[1];
@@ -414,9 +414,13 @@ class Bingo {
                     arrancarBingo = true;
                 }
 
+
+
+                // if de que si ya entró no cante mas y termine
                 cantaBingo = carton.lineas.every((linea) => (linea.estado));
                 if (cantaBingo) {
                     bingoOK = Bingo.revisarBingo(carton);
+                    bingo.cantaBingo = true;
                     if (bingoOK == true) {
                         let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
                         vozBingo.voice = synth.getVoices()[1];
@@ -433,11 +437,11 @@ class Bingo {
                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-                        if (objeto.bolas.length === objeto.numeroDeBolas) {
-                            clearInterval(objeto.intervalo);
-                            evento.target.innerHTML = "END";
-                            evento.target.disabled = true;
-                        }
+                        // if (objeto.bolas.length === objeto.numeroDeBolas) {
+                        //     clearInterval(objeto.intervalo);
+                        //     evento.target.innerHTML = "END";
+                        //     evento.target.disabled = true;
+                        // }
 
 
                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -572,46 +576,6 @@ class Bola {
 
 
 
-function populateVoiceList() {
-    if(typeof speechSynthesis === 'undefined') {
-      return;
-    }
-  
-    var voices = speechSynthesis.getVoices();
-  
-    for(var i = 0; i < voices.length; i++) {
-      var option = document.createElement('option');
-      option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-  
-      if(voices[i].default) {
-        option.textContent += ' -- DEFAULT';
-      }
-  
-      option.setAttribute('data-lang', voices[i].lang);
-      option.setAttribute('data-name', voices[i].name);
-      document.getElementById("voiceSelect").appendChild(option);
-    }
-  }
-  
-  populateVoiceList();
-  if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoiceList;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -623,7 +587,7 @@ function populateVoiceList() {
 var jugador = prompt("Please write down your name");
 let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
 // const lang = voices.find(voice => voice === 'en-US');
-console.log(lang);
+//console.log(lang);
 // ozjugador.voice = synth.getVoices()[1];
 // synth.speak(vozjugador);
 

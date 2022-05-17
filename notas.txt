@@ -1,0 +1,5 @@
+- Colores y diseño
+- Nombrar
+- Idioma estático
+- Continuación después de cantar linea
+- Parar después de cantar bingo

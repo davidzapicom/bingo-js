@@ -401,11 +401,8 @@ class Bingo {
             lineaOK = Bingo.comprobarLinea(bingo, linea);
             linea.estado = lineaOK;
 
-
             if (lineaOK) {
-                //if (!bingo.lineaCantada) {
                     linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "blue"));
-                //}
                 if (!bingo.lineaCantada) {
                     let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
                     vozLinea.voice = synth.getVoices()[1];
@@ -416,11 +413,9 @@ class Bingo {
 
 
 
-                // if de que si ya entró no cante mas y termine
                 cantaBingo = carton.lineas.every((linea) => (linea.estado));
                 if (cantaBingo) {
                     bingoOK = Bingo.revisarBingo(carton);
-                    bingo.cantaBingo = true;
                     if (bingoOK == true) {
                         let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
                         vozBingo.voice = synth.getVoices()[1];
@@ -429,23 +424,15 @@ class Bingo {
                         let bingoEnd = new SpeechSynthesisUtterance(`${jugador}, game over!`);
                         bingoEnd.voice = synth.getVoices()[1];
                         synth.speak(bingoEnd);
-                        alert(`${jugador}, you've win! Game over.`);
-                        arrancarBingo = false;
-
-
-
-                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-                        // if (objeto.bolas.length === objeto.numeroDeBolas) {
-                        //     clearInterval(objeto.intervalo);
-                        //     evento.target.innerHTML = "END";
-                        //     evento.target.disabled = true;
-                        // }
-
-
-                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     }
+
+
+
+                    //!
+                    //arrancarBingo = false;
+                    bingo.botonBingoHTML.dispatchEvent(evento);
+                    evento.target.innerHTML = "END";
+                    evento.target.disabled = true;
                 }
             }
             if (arrancarBingo) {

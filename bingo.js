@@ -425,11 +425,6 @@ class Bingo {
                         bingoEnd.voice = synth.getVoices()[1];
                         synth.speak(bingoEnd);
                     }
-
-
-
-                    //!
-                    //arrancarBingo = false;
                     bingo.botonBingoHTML.dispatchEvent(evento);
                     evento.target.innerHTML = "END";
                     evento.target.disabled = true;
@@ -558,25 +553,12 @@ class Bola {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 var jugador = prompt("Please write down your name");
 let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
-// const lang = voices.find(voice => voice === 'en-US');
-//console.log(lang);
-// ozjugador.voice = synth.getVoices()[1];
-// synth.speak(vozjugador);
+vozjugador.voice = synth.getVoices()[1];
+arrancarBingo = true;
+Bingo.botonBingoHTML.dispatchEvent(evento);
+synth.speak(vozjugador);
 
 
 let mibingo = new Bingo();

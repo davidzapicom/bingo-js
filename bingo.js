@@ -427,6 +427,20 @@ class Bingo {
                         synth.speak(bingoEnd);
                         alert(`${jugador}, you've win! Game over.`);
                         arrancarBingo = false;
+
+
+
+                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+                        if (objeto.bolas.length === objeto.numeroDeBolas) {
+                            clearInterval(objeto.intervalo);
+                            evento.target.innerHTML = "END";
+                            evento.target.disabled = true;
+                        }
+
+
+                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     }
                 }
             }
@@ -549,10 +563,69 @@ class Bola {
 }
 
 
+
+
+
+
+
+
+
+
+
+function populateVoiceList() {
+    if(typeof speechSynthesis === 'undefined') {
+      return;
+    }
+  
+    var voices = speechSynthesis.getVoices();
+  
+    for(var i = 0; i < voices.length; i++) {
+      var option = document.createElement('option');
+      option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+  
+      if(voices[i].default) {
+        option.textContent += ' -- DEFAULT';
+      }
+  
+      option.setAttribute('data-lang', voices[i].lang);
+      option.setAttribute('data-name', voices[i].name);
+      document.getElementById("voiceSelect").appendChild(option);
+    }
+  }
+  
+  populateVoiceList();
+  if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoiceList;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var jugador = prompt("Please write down your name");
 let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
-vozjugador.voice = synth.getVoices()[1];
-synth.speak(vozjugador);
+// const lang = voices.find(voice => voice === 'en-US');
+console.log(lang);
+// ozjugador.voice = synth.getVoices()[1];
+// synth.speak(vozjugador);
 
 
 let mibingo = new Bingo();

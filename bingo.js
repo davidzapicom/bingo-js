@@ -128,6 +128,7 @@ const layoutHTMLColumnaBolas = {
         justifyContent: "center",
     },
 };
+
 const layoutHTMLCarrilBolas = {
     tipo: "div",
     atributos: {
@@ -141,6 +142,7 @@ const layoutHTMLCarrilBolas = {
         justifyContent: "center",
     },
 };
+
 const layoutHTMLBombo = {
     tipo: "section",
     atributos: {
@@ -156,6 +158,7 @@ const layoutHTMLBombo = {
         justifyContent: "center",
     },
 };
+
 const layoutHTMLHuecoBola = {
     tipo: "div",
     atributos: {
@@ -177,6 +180,7 @@ const layoutHTMLHuecoBola = {
         boxShadow: "7px 7px 5px 0px rgba(50, 50, 50, 0.75)",
     },
 };
+
 const layoutHTMLBola = {
     tipo: "div",
     atributos: {
@@ -202,6 +206,7 @@ const layoutHTMLBola = {
         transitionDuration: "2s",
     },
 };
+
 const layoutHTMLBotonBingo = {
     tipo: "button",
     atributos: {
@@ -209,11 +214,6 @@ const layoutHTMLBotonBingo = {
         class: "btn",
         fontSize: "4em",
     },
-    // estilos: {
-    //     borderRadius: "10px",
-    //     color: "#000",
-    //     border: "#000",
-    // },
     eventos: [
         {
             evento: "click",
@@ -311,6 +311,7 @@ class Linea {
         this.generarCeldas();
         this.carton.ElementoHTML.insertAdjacentElement("beforeend", this.ElementoHTML);
     }
+
     generarCeldas() {
         let huecos = this.generarHuecos();
         for (let i = 1; i <= this.numeroDeColumnas; i++) {
@@ -411,8 +412,6 @@ class Bingo {
                     arrancarBingo = true;
                 }
 
-
-
                 cantaBingo = carton.lineas.every((linea) => (linea.estado));
                 if (cantaBingo) {
                     bingoOK = Bingo.revisarBingo(carton);
@@ -497,6 +496,7 @@ class Bingo {
             y = y >= 10 ? 1 : y + 1;
         }
     }
+
     generarCartones() {
         for (let i = 1; i <= this.numeroDeCartones; i++) {
             let carton = new Carton(
@@ -510,6 +510,7 @@ class Bingo {
             this.areaCartonesHTML.insertAdjacentElement('afterbegin', carton.ElementoHTML);
         }
     }
+
     nuevaBola() {
         let aleatorio = numeroAleatorio(1, this.numeroDeBolas);
         while (this.numeros.indexOf(aleatorio) != -1) {
@@ -549,16 +550,10 @@ class Bola {
 }
 
 
-
-
-
-
-var jugador = prompt("Please write down your name");
-let vozjugador = new SpeechSynthesisUtterance(`Wellcome ${jugador}, let's play!`);
-vozjugador.voice = synth.getVoices()[1];
-arrancarBingo = true;
-Bingo.botonBingoHTML.dispatchEvent(evento);
-synth.speak(vozjugador);
-
-
-let mibingo = new Bingo();
+function arrancar(form)  {
+    var jugador = form.inputbox.value;
+    alert ("You typed: " +jugador);
+    let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    synth.speak(voz);
+    let mibingo = new Bingo();
+}

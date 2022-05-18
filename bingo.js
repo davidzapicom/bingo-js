@@ -415,7 +415,7 @@ class Bingo {
                 cantaBingo = carton.lineas.every((linea) => (linea.estado));
                 if (cantaBingo) {
                     bingoOK = Bingo.revisarBingo(carton);
-                    if (bingoOK == true) {
+                    if (bingoOK) {
                         let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
                         vozBingo.voice = synth.getVoices()[1];
                         synth.speak(vozBingo);

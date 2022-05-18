@@ -552,7 +552,6 @@ class Bola {
 
 function arrancar(form)  {
     var jugador = form.inputbox.value;
-    alert ("You typed: " +jugador);
     let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
     synth.speak(voz);
     let mibingo = new Bingo();

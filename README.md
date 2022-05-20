@@ -20,5 +20,5 @@
 
 ### The pages of the app are:
 1. The index only contains the html form to start the application. 
-2. the page bingo.js is where the game code is.
+2. The page bingo.js is where the game code is.
 3. Last the css.

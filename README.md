@@ -4,7 +4,7 @@
 ![Bingo image](https://img.freepik.com/vector-gratis/bolas-boletos-loteria-tarjetas-loteria-bingo-3d-numeros_8071-2373.jpg?w=2000)
 
 ### Tech stack -> JS | HTML | CSS
-**[Email](mailto:davidzapico@davidzapico.com)**.
+**[Email](mailto:lab@davidzapico.com)**.
 
 # :es:
 ### La aplicación está basada en el juego bingo. 

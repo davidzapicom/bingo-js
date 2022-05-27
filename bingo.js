@@ -6,7 +6,7 @@ const layoutHTMLCarton = {
         name: "carton",
     },
     estilos: {
-        backgroundColor: "lightgrey",
+        backgroundColor: "#F9EBC8",
         width: "600px",
         height: "240px",
         display: "flex",
@@ -24,7 +24,7 @@ const layoutHTMLLinea = {
     estilos: {
         width: "600px",
         height: "70px",
-        backgroundColor: "dodgerblue",
+        backgroundColor: "#2ea4ef",
         border: "1px solid white",
         display: "flex",
         flexDirection: "row",
@@ -57,7 +57,7 @@ const layoutHTMLCelda = {
                 if (objeto.numero != 0) {
                     if (objeto.estado == undefined || !objeto.estado) {
                         objeto.estado = true;
-                        evento.target.style.filter = "invert(100%)";
+                        evento.target.style.backgroundColor = "#fd4d3f";
                         Bingo.comprobarBingo(objeto.linea.carton.juego, objeto.linea, objeto.linea.carton);
                     } else {
                         objeto.estado = false;
@@ -151,7 +151,7 @@ const layoutHTMLBombo = {
     estilos: {
         backgroundColor: "#F9EBC8",
         width: "600px",
-        height: "240px",
+        height: "350px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -168,7 +168,7 @@ const layoutHTMLHuecoBola = {
         display: "inline-block",
         background: "#cccccc",
         borderRadius: "100px",
-        color: "#fff",
+        color: "#fd4d3f",
         width: "40px",
         height: "40px",
         lineHeight: "1.6em",
@@ -274,11 +274,13 @@ function numeroAleatorio(desde, hasta) {
 function arrancar(form)  {
     document.getElementById("beginBUT").disabled = true;
     form.style.display = "none";
-    var jugador = form.inputbox.value;
+    const jugador = form.inputbox.value;
     let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
     synth.speak(voz);
     let mibingo = new Bingo();
 }
+
+const personaje = document.getElementById("personaje").value;
 
 
 class Carton {
@@ -413,10 +415,14 @@ class Bingo {
             linea.estado = lineaOK;
 
             if (lineaOK) {
-                    linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "blue"));
+                //! Hacer que solo cambie el color de las celdas con numeros
+                //* if (celda.numero == 0) {
+                    linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "yellow"));
+                //* } 
+                    
                 if (!bingo.lineaCantada) {
-                    let vozLinea = new SpeechSynthesisUtterance(`${jugador}, you've made line!`);
-                    vozLinea.voice = synth.getVoices()[1];
+                    let vozLinea = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made line!`);
+                    // vozLinea.voice = synth.getVoices()[1];
                     synth.speak(vozLinea);
                     bingo.lineaCantada = true;
                     arrancarBingo = true;
@@ -426,12 +432,12 @@ class Bingo {
                 if (cantaBingo) {
                     bingoOK = Bingo.revisarBingo(carton);
                     if (bingoOK) {
-                        let vozBingo = new SpeechSynthesisUtterance(`${jugador}, you've made Bingo!`);
-                        vozBingo.voice = synth.getVoices()[1];
+                        let vozBingo = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made Bingo!`);
+                        // vozBingo.voice = synth.getVoices()[1];
                         synth.speak(vozBingo);
 
-                        let bingoEnd = new SpeechSynthesisUtterance(`${jugador}, game over!`);
-                        bingoEnd.voice = synth.getVoices()[1];
+                        let bingoEnd = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, game over!`);
+                        // bingoEnd.voice = synth.getVoices()[1];
                         synth.speak(bingoEnd);
                     }
                     bingo.botonBingoHTML.dispatchEvent(evento);

@@ -271,6 +271,16 @@ function numeroAleatorio(desde, hasta) {
 }
 
 
+function arrancar(form)  {
+    document.getElementById("beginBUT").disabled = true;
+    form.style.display = "none";
+    var jugador = form.inputbox.value;
+    let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    synth.speak(voz);
+    let mibingo = new Bingo();
+}
+
+
 class Carton {
     constructor(juego, numeroBolasJuego = 90, numerosPorCarton = 15, numeroDeLineas = 3, numeroDeColumnas = 9, numerosPorLinea = 5, huecosPorLinea = 4) {
         this.juego = juego;
@@ -521,7 +531,7 @@ class Bingo {
         this.numeros.push(aleatorio);
         let vozBola = new SpeechSynthesisUtterance(`${bola.numero}`);
         //* idioma declarado
-        vozBola.voice = synth.getVoices()[1];
+        //* vozBola.voice = synth.getVoices()[1];
         synth.speak(vozBola);
         let tempo = setTimeout(function () {
             bola.elementoHTML.style.bottom = "-500px";
@@ -547,12 +557,4 @@ class Bola {
         this.elementoHTML.innerHTML = numero;
         bingo.carrilBolasHTML.insertAdjacentElement("beforeend", this.elementoHTML);
     }
-}
-
-
-function arrancar(form)  {
-    var jugador = form.inputbox.value;
-    let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
-    synth.speak(voz);
-    let mibingo = new Bingo();
 }

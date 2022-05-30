@@ -1,3 +1,2 @@
-- Colores y diseño
-- Nombrar
 - Idioma estático
+- color celds cuando canta linea 

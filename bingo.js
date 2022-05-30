@@ -280,8 +280,6 @@ function arrancar(form)  {
     let mibingo = new Bingo();
 }
 
-const personaje = document.getElementById("personaje").value;
-
 
 class Carton {
     constructor(juego, numeroBolasJuego = 90, numerosPorCarton = 15, numeroDeLineas = 3, numeroDeColumnas = 9, numerosPorLinea = 5, huecosPorLinea = 4) {

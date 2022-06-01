@@ -271,7 +271,7 @@ function numeroAleatorio(desde, hasta) {
 }
 
 
-function arrancar(form)  {
+function arrancar(form) {
     document.getElementById("beginBUT").disabled = true;
     form.style.display = "none";
     const jugador = form.inputbox.value;
@@ -413,11 +413,13 @@ class Bingo {
             linea.estado = lineaOK;
 
             if (lineaOK) {
-                //! Hacer que solo cambie el color de las celdas con numeros
-                //* if (celda.numero == 0) {
-                    linea.celdas.forEach((celda) => (celda.ElementoHTML.style.backgroundColor = "yellow"));
-                //* } 
-                    
+                linea.celdas.forEach(
+                    (celda) => {
+                        if (!celda.numero == 0) {
+                            celda.ElementoHTML.style.backgroundColor = "yellow";
+                        }
+                    });
+
                 if (!bingo.lineaCantada) {
                     let vozLinea = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made line!`);
                     // vozLinea.voice = synth.getVoices()[1];

@@ -1,2 +1,0 @@
-- Idioma estático
-- color celds cuando canta linea 

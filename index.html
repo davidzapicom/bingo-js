@@ -6,9 +6,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-	<meta name="theme-color" content="#ffffff">
+	<meta name="theme-color" content="#f9ebc8">
 
 	<!--LINKS-->
 	<link rel="stylesheet" href="assets/css/styles.css">
@@ -33,13 +31,21 @@
 	<title>BINGO</title>
 </head>
 
-<body style="background-color: #f9ebc8;">
-	<h1>BINGO MARAVILLAS</h1>
-	<button class="btn right" onClick="window.location.reload();">Restart Game</button>
-	<select id="voiceSelect" class="right" ></select>
-	<form name="form">Please write down your name: <br>
-		<input type="text" id="personaje" name="inputbox" value="">
-		<button type="submit" id="beginBUT" class="btn" name="button" value="Enviar" onClick="arrancar(this.form)">Start</button>
+<body>
+
+	<header>
+		<h1 id="logo"></h1>
+		<div class="selectores right">
+			<select id="voiceSelect" onChange="voice(event);"></select>
+			<button class="btn" onClick="window.location.reload();">Restart Game</button>
+			
+		</div>
+<!-- Please write down your name: <br> -->
+	</header>
+	<form name="form">
+		<input type="text" id="personaje" class="input"  name="inputbox" placeholder="Type here your name!" value="">
+		<button type="submit" id="beginBUT" class="btn" name="button" value="Enviar"
+			onClick="arrancar(this.form)">Start</button>
 	</form>
 </body>
 <script src="bingo.js"></script>

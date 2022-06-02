@@ -1,55 +1,46 @@
 const synth = window.speechSynthesis;
 
-function populateVoiceList() {
-    if (typeof speechSynthesis === 'undefined') {
-        return;
-    }
+// function populateVoiceList() {
+//     if (typeof speechSynthesis === 'undefined') {
+//         return;
+//     }
 
-    var voices = speechSynthesis.getVoices();
+//     var voices = speechSynthesis.getVoices();
 
-    for (var i = 0; i < voices.length; i++) {
-        var option = document.createElement('option');
-        option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+//     for (var i = 0; i < voices.length; i++) {
+//         var option = document.createElement('option');
+//         option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
 
-        if (voices[i].default) {
-            option.textContent += ' -- DEFAULT';
-        }
+//         if (voices[i].default) {
+//             option.textContent += ' -- DEFAULT';
+//         }
 
-        option.setAttribute('data-lang', voices[i].lang);
-        option.setAttribute('data-name', voices[i].name);
-        document.getElementById("voiceSelect").appendChild(option);
-    }
-}
-
-
-populateVoiceList();
-if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoiceList;
-}
+//         option.setAttribute('data-lang', voices[i].lang);
+//         option.setAttribute('data-name', voices[i].name);
+//         document.getElementById("voiceSelect").appendChild(option);
+//     }
+// }
 
 
-function voice(event) {
-    document.getElementById("voiceSelect").disabled = true;
-    document.getElementById("voiceSelect").style.display = none;
-    event.preventDefault();
-
-    var utterThis = new SpeechSynthesisUtterance(inputTxt.value);
-    var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for (let i = 0; i < voices.length; i++) {
-        if (voices[i].name === selectedOption) {
-            utterThis.voice = voices[i];
-        }
-    }
-    synth.speak(utterThis);
-    inputTxt.blur();
-}
+// populateVoiceList();
+// if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+//     speechSynthesis.onvoiceschanged = populateVoiceList;
+// }
 
 
+// function voice(event) {
+//     event.preventDefault();
 
-
-
-
-
+//     var utterThis = new SpeechSynthesisUtterance(inputTxt.value);
+//     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+//     for (let i = 0; i < voices.length; i++) {
+//         if (voices[i].name === selectedOption) {
+//             utterThis.voice = voices[i];
+//         }
+//     }
+//     synth.speak(utterThis);
+//     inputTxt.blur();
+// }
 
 
 const layoutHTMLCarton = {
@@ -329,7 +320,7 @@ function arrancar(form) {
     const jugador = form.inputbox.value;
     let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
     synth.speak(voz);
-    let mibingo = new Bingo("Bingo Maravillas");
+    let mibingo = new Bingo();
 }
 
 
@@ -445,34 +436,6 @@ class Celda {
 
 
 class Bingo {
-    constructor(nombre, numeroDeBolas = 90, numeroDeCartones = 3, numerosPorCarton = 15, lineas = 3, columnas = 9) {
-        this.nombre = nombre;
-        document.title = this.nombre;
-        document.getElementById("logo").innerHTML = this.nombre;
-        this.numeroDeBolas = numeroDeBolas;
-        this.numeroDeCartones = numeroDeCartones;
-        this.numerosPorCarton = numerosPorCarton;
-        this.lineas = lineas;
-        this.columnas = columnas;
-        this.cartones = [];
-        this.bolas = [];
-        this.numeros = [];
-        this.girando = false;
-        this.lineaCantada = false;
-        this.mesaHTML = generarElementoHTML(layoutHTMLMesa, this);
-        document.body.insertAdjacentElement("beforeend", this.mesaHTML);
-        this.areaCartonesHTML = generarElementoHTML(layoutHTMLAreaCartones, this);
-        this.mesaHTML.insertAdjacentElement("beforeend", this.areaCartonesHTML);
-        this.generarCartones();
-        this.mesaBomboHTML = generarElementoHTML(layoutHTMLMesaBombo, this);
-        this.mesaHTML.insertAdjacentElement("beforeend", this.mesaBomboHTML);
-        this.bomboHTML = generarElementoHTML(layoutHTMLBombo, this);
-        this.mesaBomboHTML.insertAdjacentElement("beforeend", this.bomboHTML);
-        this.botonBingoHTML = generarElementoHTML(layoutHTMLBotonBingo, this);
-        this.bomboHTML.insertAdjacentElement("beforeend", this.botonBingoHTML);
-        this.botonBingoHTML.innerHTML = "Start";
-        this.generarTablaDeBolas();
-    }
     static comprobarBingo(bingo, linea, carton) {
         let cantaLinea = linea.celdas.every((celda) => celda.numero == 0 || celda.estado);
         let cantaBingo = false;
@@ -500,12 +463,11 @@ class Bingo {
                         } else {
                             celda.ElementoHTML.style.backgroundColor = "#2ea4ef";
                         }
-                    }
-                );
+                    });
 
                 if (!bingo.lineaCantada) {
                     let vozLinea = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made line!`);
-                    // vozLinea.voice = synth.getVoices()[1];
+                    vozLinea.voice = utterThis.voice;
                     synth.speak(vozLinea);
                     bingo.lineaCantada = true;
                     arrancarBingo = true;
@@ -517,10 +479,12 @@ class Bingo {
                     if (bingoOK) {
                         let vozBingo = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made Bingo!`);
                         // vozBingo.voice = synth.getVoices()[1];
+                        vozBingo.voice = utterThis.voice;
                         synth.speak(vozBingo);
 
                         let bingoEnd = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, game over!`);
                         // bingoEnd.voice = synth.getVoices()[1];
+                        bingoEnd.voice = utterThis.voice;
                         synth.speak(bingoEnd);
                     }
                     bingo.botonBingoHTML.dispatchEvent(evento);
@@ -548,6 +512,32 @@ class Bingo {
             )
         );
         return bingoOK;
+    }
+
+    constructor(numeroDeBolas = 90, numeroDeCartones = 3, numerosPorCarton = 15, lineas = 3, columnas = 9) {
+        this.numeroDeBolas = numeroDeBolas;
+        this.numeroDeCartones = numeroDeCartones;
+        this.numerosPorCarton = numerosPorCarton;
+        this.lineas = lineas;
+        this.columnas = columnas;
+        this.cartones = [];
+        this.bolas = [];
+        this.numeros = [];
+        this.girando = false;
+        this.lineaCantada = false;
+        this.mesaHTML = generarElementoHTML(layoutHTMLMesa, this);
+        document.body.insertAdjacentElement("beforeend", this.mesaHTML);
+        this.areaCartonesHTML = generarElementoHTML(layoutHTMLAreaCartones, this);
+        this.mesaHTML.insertAdjacentElement("beforeend", this.areaCartonesHTML);
+        this.generarCartones();
+        this.mesaBomboHTML = generarElementoHTML(layoutHTMLMesaBombo, this);
+        this.mesaHTML.insertAdjacentElement("beforeend", this.mesaBomboHTML);
+        this.bomboHTML = generarElementoHTML(layoutHTMLBombo, this);
+        this.mesaBomboHTML.insertAdjacentElement("beforeend", this.bomboHTML);
+        this.botonBingoHTML = generarElementoHTML(layoutHTMLBotonBingo, this);
+        this.bomboHTML.insertAdjacentElement("beforeend", this.botonBingoHTML);
+        this.botonBingoHTML.innerHTML = "Start";
+        this.generarTablaDeBolas();
     }
 
     generarTablaDeBolas() {
@@ -595,6 +585,7 @@ class Bingo {
         let vozBola = new SpeechSynthesisUtterance(`${bola.numero}`);
         //* idioma declarado
         //* vozBola.voice = synth.getVoices()[1];
+        vozBola.voice = utterThis.voice;
         synth.speak(vozBola);
         let tempo = setTimeout(function () {
             bola.elementoHTML.style.bottom = "-500px";

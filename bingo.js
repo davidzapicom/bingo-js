@@ -1,67 +1,51 @@
-const synth = window.speechSynthesis;
+var synth = window.speechSynthesis;
 
-var voz = voices[0];
-var voices = [];
-
-var inputForm = document.querySelector('form');
 var voiceSelect = document.querySelector('select');
 
+var voices = [];
+var miVoz;
 
 function populateVoiceList() {
-  voices = synth.getVoices().sort(function (a, b) {
-      const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-      if ( aname < bname ) return -1;
-      else if ( aname == bname ) return 0;
-      else return +1;
-  });
-  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
-  voiceSelect.innerHTML = '';
-  for(i = 0; i < voices.length ; i++) {
-    var option = document.createElement('option');
-    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-    
-    if(voices[i].default) {
-      option.textContent += ' -- DEFAULT';
+    voices = synth.getVoices().sort(function (a, b) {
+        const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
+        if (aname < bname) return -1;
+        else if (aname == bname) return 0;
+        else return +1;
+    });
+    var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+    voiceSelect.innerHTML = '';
+    for (i = 0; i < voices.length; i++) {
+        var option = document.createElement('option');
+        option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+        if (voices[i].default) {
+            option.textContent += ' -- DEFAULT';
+        }
+        option.setAttribute('data-lang', voices[i].lang);
+        option.setAttribute('data-name', voices[i].name);
+        voiceSelect.appendChild(option);
     }
-
-    option.setAttribute('data-lang', voices[i].lang);
-    option.setAttribute('data-name', voices[i].name);
-    voiceSelect.appendChild(option);
-  }
-  voiceSelect.selectedIndex = selectedIndex;
+    voiceSelect.selectedIndex = selectedIndex;
 }
 
 populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = populateVoiceList;
+    speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 
-function speak(){
+function speak() {
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for(i = 0; i < voices.length ; i++) {
-      if(voices[i].name === selectedOption) {
-        utterThis.voice = voices[i];
-        break;
-      }
-    synth.speak(utterThis);
-  }
-}
-
-inputForm.onsubmit = function(event) {
-  event.preventDefault();
-  speak();
-  inputTxt.blur();
-}
-
-voiceSelect.onchange = function(){
-  speak();
+    for (i = 0; i < voices.length; i++) {
+        if (voices[i].name === selectedOption) {
+            miVoz = voices[i];
+            break;
+        }
+    }
 }
 
 
-
-
-//* Termina el speech synthesis
-
+voiceSelect.onchange = function () {
+    speak();
+}
 
 
 
@@ -345,8 +329,9 @@ function arrancar(form) {
     document.getElementById("beginBUT").disabled = true;
     form.style.display = "none";
     const jugador = form.inputbox.value;
-    let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
-    synth.speak(voz);
+    let vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    vozSaludo.voice = miVoz;
+    synth.speak(vozSaludo);
     let mibingo = new Bingo("Bingo Maravillas");
 }
 
@@ -524,6 +509,7 @@ class Bingo {
                 if (!bingo.lineaCantada) {
                     let vozLinea = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made line!`);
                     // vozLinea.voice = synth.getVoices()[1];
+                    vozLinea.voice = miVoz;
                     synth.speak(vozLinea);
                     bingo.lineaCantada = true;
                     arrancarBingo = true;
@@ -534,10 +520,12 @@ class Bingo {
                     bingoOK = Bingo.revisarBingo(carton);
                     if (bingoOK) {
                         let vozBingo = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made Bingo!`);
+                        vozBingo.voice = miVoz;
                         // vozBingo.voice = synth.getVoices()[1];
                         synth.speak(vozBingo);
 
                         let bingoEnd = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, game over!`);
+                        bingoEnd.voice = miVoz;
                         // bingoEnd.voice = synth.getVoices()[1];
                         synth.speak(bingoEnd);
                     }
@@ -613,6 +601,7 @@ class Bingo {
         let vozBola = new SpeechSynthesisUtterance(`${bola.numero}`);
         //* idioma declarado
         //* vozBola.voice = synth.getVoices()[1];
+        vozBola.voice = miVoz;
         synth.speak(vozBola);
         let tempo = setTimeout(function () {
             bola.elementoHTML.style.bottom = "-500px";

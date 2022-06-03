@@ -38,11 +38,8 @@ function speak(){
       if(voices[i].name === selectedOption) {
         miVoz = voices[i];
         break;
-      } else {
-        miVoz = voices[0];
-      }
+      } 
     }
-    console.log(miVoz);
   }
 
 
@@ -329,21 +326,21 @@ function arrancar(form) {
     const jugador = form.inputbox.value;
     let vozSaludo;
 
+    // switch (miVoz) {
+    //     case "Google español":
+    //     break;
 
-    switch (miVoz) {
-        // case "Google español":
-        // break;
+    //     case "Google inglés":
+    //         vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    //     break;
 
-        // case "Google inglés":
-        //     vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
-        // break;
+    //     default:
+    //         vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    //     break;
+    // }
 
-        default:
-            vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
-        break;
-    }
-
-
+    vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    vozSaludo.voice = miVoz;
     synth.speak(vozSaludo);
     let mibingo = new Bingo("Bingo Maravillas");
 }

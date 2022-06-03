@@ -53,7 +53,6 @@ voiceSelect.onchange = function () {
 
 
 
-
 const layoutHTMLCarton = {
     tipo: "section",
     atributos: {
@@ -329,9 +328,8 @@ function arrancar(form) {
     document.getElementById("beginBUT").disabled = true;
     form.style.display = "none";
     const jugador = form.inputbox.value;
-    let vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
-    vozSaludo.voice = miVoz;
-    synth.speak(vozSaludo);
+    let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+    synth.speak(voz);
     let mibingo = new Bingo("Bingo Maravillas");
 }
 
@@ -509,7 +507,6 @@ class Bingo {
                 if (!bingo.lineaCantada) {
                     let vozLinea = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made line!`);
                     // vozLinea.voice = synth.getVoices()[1];
-                    vozLinea.voice = miVoz;
                     synth.speak(vozLinea);
                     bingo.lineaCantada = true;
                     arrancarBingo = true;
@@ -520,12 +517,10 @@ class Bingo {
                     bingoOK = Bingo.revisarBingo(carton);
                     if (bingoOK) {
                         let vozBingo = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, you've made Bingo!`);
-                        vozBingo.voice = miVoz;
                         // vozBingo.voice = synth.getVoices()[1];
                         synth.speak(vozBingo);
 
                         let bingoEnd = new SpeechSynthesisUtterance(`${document.getElementById("personaje").value}, game over!`);
-                        bingoEnd.voice = miVoz;
                         // bingoEnd.voice = synth.getVoices()[1];
                         synth.speak(bingoEnd);
                     }
@@ -601,7 +596,6 @@ class Bingo {
         let vozBola = new SpeechSynthesisUtterance(`${bola.numero}`);
         //* idioma declarado
         //* vozBola.voice = synth.getVoices()[1];
-        vozBola.voice = miVoz;
         synth.speak(vozBola);
         let tempo = setTimeout(function () {
             bola.elementoHTML.style.bottom = "-500px";

@@ -1,0 +1,2 @@
+sino consigo el translator hacer un switch con los lnguajes como numeros del array etc
+poner texto botones en idioma

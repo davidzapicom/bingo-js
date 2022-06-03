@@ -68,45 +68,9 @@ button:active {
     right: 3px;
 }
 
-
 header {
     position: relative;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .input {
     border: none;
@@ -122,3 +86,11 @@ header {
 .input:focus {
     outline-color: #f9ebc8;
 }
+
+h1 {
+   color: #9e79cc;
+}
+
+::placeholder {
+    color: white;
+  }

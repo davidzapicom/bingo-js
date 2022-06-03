@@ -3,55 +3,52 @@ var synth = window.speechSynthesis;
 var voiceSelect = document.querySelector('select');
 
 var voices = [];
-var miVoz;
+var miVoz = voices[0];
 
 function populateVoiceList() {
-    voices = synth.getVoices().sort(function (a, b) {
-        const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-        if (aname < bname) return -1;
-        else if (aname == bname) return 0;
-        else return +1;
-    });
-    var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
-    voiceSelect.innerHTML = '';
-    for (i = 0; i < voices.length; i++) {
-        var option = document.createElement('option');
-        option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-        if (voices[i].default) {
-            option.textContent += ' -- DEFAULT';
-        }
-        option.setAttribute('data-lang', voices[i].lang);
-        option.setAttribute('data-name', voices[i].name);
-        voiceSelect.appendChild(option);
+  voices = synth.getVoices().sort(function (a, b) {
+      const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
+      if ( aname < bname ) return -1;
+      else if ( aname == bname ) return 0;
+      else return +1;
+  });
+  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+  voiceSelect.innerHTML = '';
+  for(i = 0; i < voices.length ; i++) {
+    var option = document.createElement('option');
+    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
     }
-    voiceSelect.selectedIndex = selectedIndex;
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    voiceSelect.appendChild(option);
+  }
+  voiceSelect.selectedIndex = selectedIndex;
 }
 
 populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoiceList;
+  speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 
-function speak() {
+function speak(){
     var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for (i = 0; i < voices.length; i++) {
-        if (voices[i].name === selectedOption) {
-            miVoz = voices[i];
-            break;
-        }
+    for(i = 0; i < voices.length ; i++) {
+      if(voices[i].name === selectedOption) {
+        miVoz = voices[i];
+        break;
+      } else {
+        miVoz = voices[0];
+      }
     }
+    console.log(miVoz);
+  }
+
+
+voiceSelect.onchange = function(){
+  speak();
 }
-
-
-voiceSelect.onchange = function () {
-    speak();
-}
-
-
-
-
-
-
 
 const layoutHTMLCarton = {
     tipo: "section",
@@ -326,10 +323,28 @@ function numeroAleatorio(desde, hasta) {
 
 function arrancar(form) {
     document.getElementById("beginBUT").disabled = true;
+    voiceSelect.disabled = true;
+    voiceSelect.style.display = "none";
     form.style.display = "none";
     const jugador = form.inputbox.value;
-    let voz = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
-    synth.speak(voz);
+    let vozSaludo;
+
+
+    switch (miVoz) {
+        // case "Google español":
+        // break;
+
+        // case "Google inglés":
+        //     vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+        // break;
+
+        default:
+            vozSaludo = new SpeechSynthesisUtterance(`Welcome ${jugador}, let's play!`);
+        break;
+    }
+
+
+    synth.speak(vozSaludo);
     let mibingo = new Bingo("Bingo Maravillas");
 }
 
@@ -474,6 +489,7 @@ class Bingo {
         this.botonBingoHTML.innerHTML = "Start";
         this.generarTablaDeBolas();
     }
+
     static comprobarBingo(bingo, linea, carton) {
         let cantaLinea = linea.celdas.every((celda) => celda.numero == 0 || celda.estado);
         let cantaBingo = false;
@@ -594,8 +610,6 @@ class Bingo {
         this.bolas.push(bola);
         this.numeros.push(aleatorio);
         let vozBola = new SpeechSynthesisUtterance(`${bola.numero}`);
-        //* idioma declarado
-        //* vozBola.voice = synth.getVoices()[1];
         synth.speak(vozBola);
         let tempo = setTimeout(function () {
             bola.elementoHTML.style.bottom = "-500px";
